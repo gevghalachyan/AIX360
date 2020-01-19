@@ -35,7 +35,7 @@ def faithfulness_metric(model, x, coefs, base):
         x_copy = x.copy()
         x_copy[ind] = base[ind]
         x_copy_pr = model.predict_proba(x_copy.reshape(1,-1))
-        pred_probs[ind] = x_copy_pr[0][pred_class]
+        pred_probs[ind] = x_copy_pr[0][int(pred_class)]
 
     return -np.corrcoef(coefs, pred_probs)[0,1]
 
@@ -73,6 +73,6 @@ def monotonicity_metric(model, x, coefs, base):
     for ind in np.nditer(ar):
         x_copy[ind] = x[ind]
         x_copy_pr = model.predict_proba(x_copy.reshape(1,-1))
-        pred_probs[ind] = x_copy_pr[0][pred_class]
+        pred_probs[ind] = x_copy_pr[0][int(pred_class)]
 
     return np.all(np.diff(pred_probs[ar]) >= 0)
